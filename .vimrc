@@ -15,11 +15,12 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-rails'
 Plugin 'elixir-editors/vim-elixir'
+"Plugin 'vim-scripts/indentpython.vim'
 Plugin 'fatih/vim-go'
 Plugin 'mattn/emmet-vim'
+"Plugin 'vim-syntastic/syntastic'
 Plugin 'rking/ag.vim'
 Plugin 'dyng/ctrlsf.vim'
-Plugin 'w0rp/ale'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -35,6 +36,16 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
+
+"python with virtualenv support
+py << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+  project_base_dir = os.environ['VIRTUAL_ENV']
+  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  execfile(activate_this, dict(__file__=activate_this))
+EOF
 
 " Leader
 let mapleader = " "
@@ -73,6 +84,11 @@ set foldlevel=99
 set list listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
 set splitbelow " Open new split panes to the bottom
 set splitright " Open new split panes to the right
+
+" let g:syntastic_always_populate_loc_list = 0
+" let g:syntastic_auto_loc_list = 0
+" let g:syntastic_check_on_open = 0
+" let g:syntastic_check_on_wq = 0
 
 " Make my python code look pretty
 let python_highlight_all=0
@@ -131,6 +147,15 @@ nnoremap <silent>gss :split<CR>gf
 " Go file in new tab
 nnoremap <silent>gtt :tabnew<CR><C-O>gf<CR>
 
+" Set relative number
+" nnoremap <silent>nn :set relativenumber!<CR>
+
+" Remapping CtrlP
+" let g:ctrlp_map = ' t'
+nnoremap <silent> <Leader>t :CtrlP<CR>
+nnoremap <silent> <Leader>p :CtrlP<CR>
+nnoremap <silent> <Leader>b :CtrlPBuffer<CR>
+
 " Mapping copy and paste with X support
 noremap <Leader>y "+y
 noremap <Leader>p "+p
@@ -158,7 +183,6 @@ au BufNewFile,BufRead *.vue
 au BufNewFile,BufRead *.go
     \ set textwidth=0
 
-" Text limiter to markdown
 au BufNewFile,BufRead *.md
     \ set textwidth=0
 
@@ -175,10 +199,8 @@ nnoremap <silent> K :Ag! <cword><CR>
 
 let g:ctrlsf_winsize = '30%' " ctrlsf position
 
-" Shortcutt to CtrlSF a word
-map <silent>F <Plug>CtrlSFPrompt<CR>
+" map <silent>F <Plug>CtrlSFPrompt<CR>
 
-" Initial configuration for Explore
 let g:netrw_winsize = 17
 let g:netrw_banner=0        " disable annoying banner
 let g:netrw_browse_split=2  " open in vertical split
