@@ -20,6 +20,7 @@ Plugin 'mattn/emmet-vim'
 Plugin 'rking/ag.vim'
 Plugin 'dyng/ctrlsf.vim'
 Plugin 'w0rp/ale'
+Plugin 'Vimjas/vim-python-pep8-indent'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -41,6 +42,7 @@ let mapleader = " "
 
 set path+=**
 set wildmenu
+set wildignore+=*pyc
 set encoding=utf-8 " Ensure to work with utf-8, better to my python/django projects
 set backspace=2   " Backspace deletes like most programs in insert mode
 set nobackup
@@ -73,7 +75,7 @@ set foldlevel=99
 set list listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
 set splitbelow " Open new split panes to the bottom
 set splitright " Open new split panes to the right
-
+set tags=tags
 " Make my python code look pretty
 let python_highlight_all=0
 
@@ -116,8 +118,8 @@ nnoremap <silent>ss :split<CR>
 nnoremap <silent>vv :vsplit<CR>
 
 " Create terminal in split
-nnoremap <silent>tss :split term://bash<CR>
-nnoremap <silent>tvv :vsplit term://bash<CR>
+nnoremap <silent>tss :term<CR>
+nnoremap <silent>tvv :vertical term<CR>
 
 " Clean words that was searched
 nnoremap <silent>// :noh<CR>
@@ -160,6 +162,9 @@ au BufNewFile,BufRead *.go
 
 " Text limiter to markdown
 au BufNewFile,BufRead *.md
+    \ set textwidth=168
+
+au BufNewFile,BufRead *.html
     \ set textwidth=0
 
 " Incovenient blank spaces
@@ -184,3 +189,12 @@ let g:netrw_banner=0        " disable annoying banner
 let g:netrw_browse_split=2  " open in vertical split
 let g:netrw_altv=1          " open splits to the right
 let g:netrw_liststyle=3     " tree view
+
+"Netwr was removind my ctrl L command
+augroup netrw_mapping
+  autocmd!
+  autocmd filetype netrw call NetrwMapping()
+augroup END
+function! NetrwMapping()
+  nnoremap <buffer> <c-l> :wincmd l<cr>
+endfunction

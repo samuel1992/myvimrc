@@ -1,0 +1,39 @@
+[global_config]
+  borderless = True
+  enabled_plugins = TerminatorThemes, LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
+  title_transmit_bg_color = "#ef2929"
+[keybindings]
+  go_down = <Primary><Shift>j
+  go_left = <Primary><Shift>h
+  go_next = <Primary><Shift>n
+  go_prev = <Primary><Shift>p
+  go_right = <Primary><Shift>l
+  go_up = <Primary><Shift>k
+[layouts]
+  [[default]]
+    [[[child1]]]
+      parent = window0
+      profile = default
+      type = Terminal
+    [[[window0]]]
+      parent = ""
+      type = Window
+[plugins]
+[profiles]
+  [[default]]
+    allow_bold = False
+    background_color = "#002b36"
+    cursor_color = "#708284"
+    font = Inconsolata XL Medium 10
+    foreground_color = "#95a8aa"
+    palette = "#25292a:#f24840:#629655:#b68800:#2075c7:#797fd4:#15968d:#d2d8d9:#25292a:#f24840:#629655:#b68800:#2075c7:#797fd4:#15968d:#d2d8d9"
+    scrollback_infinite = True
+    use_system_font = False
+  [[white]]
+    background_color = "#dadac1"
+    cursor_color = "#aaaaaa"
+    font = Inconsolata XL Medium 9
+    foreground_color = "#2e3436"
+    palette = "#2e3436:#cc0000:#a40000:#c4a000:#3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#a40000:#4e9a06:#204a87:#ad7fa8:#3465a4:#eeeeec"
+    scrollback_infinite = True
+    use_system_font = False
