@@ -1,6 +1,11 @@
 syntax on
 set nocompatible              " be iMproved, required
 
+" Set Ale linters
+let g:ale_linters = {
+\   'python': ['flake8'],
+\}
+
 command! MakeTags !ctags -R .
 " Exclude Javascript files in :Rtags via rails.vim due to warnings when parsing
 let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
@@ -21,6 +26,7 @@ Plugin 'rking/ag.vim'
 Plugin 'dyng/ctrlsf.vim'
 Plugin 'w0rp/ale'
 Plugin 'Vimjas/vim-python-pep8-indent'
+Plugin 'JamshedVesuna/vim-markdown-preview'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -76,6 +82,7 @@ set list listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
 set splitbelow " Open new split panes to the bottom
 set splitright " Open new split panes to the right
 set tags=tags
+
 " Make my python code look pretty
 let python_highlight_all=0
 
@@ -186,7 +193,7 @@ map <silent>F <Plug>CtrlSFPrompt<CR>
 " Initial configuration for Explore
 let g:netrw_winsize = 17
 let g:netrw_banner=0        " disable annoying banner
-let g:netrw_browse_split=2  " open in vertical split
+" let g:netrw_browse_split=2  " open in vertical split
 let g:netrw_altv=1          " open splits to the right
 let g:netrw_liststyle=3     " tree view
 
