@@ -26,7 +26,6 @@ Plugin 'rking/ag.vim'
 Plugin 'dyng/ctrlsf.vim'
 Plugin 'w0rp/ale'
 Plugin 'Vimjas/vim-python-pep8-indent'
-Plugin 'JamshedVesuna/vim-markdown-preview'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
