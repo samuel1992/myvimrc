@@ -1,55 +1,71 @@
 syntax on
-set nocompatible              " be iMproved, required
+filetype plugin indent on
 
-" Set Ale linters
+set nocompatible              " be improved, required
+
+
+" set the runtime path to include vundle and initialize
+set rtp+=~/.vim/bundle/vundle.vim
+call vundle#begin()
+" alternatively, pass a path where vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let vundle manage vundle, required
+plugin 'vundlevim/vundle.vim'
+plugin 'tpope/vim-rails'
+plugin 'tpope/vim-fugitive'
+plugin 'elixir-editors/vim-elixir'
+plugin 'fatih/vim-go'
+plugin 'mattn/emmet-vim'
+plugin 'rking/ag.vim'
+plugin 'dyng/ctrlsf.vim'
+plugin 'w0rp/ale'
+plugin 'vimjas/vim-python-pep8-indent'
+
+" all of your plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" to ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" brief help
+" :pluginlist       - lists configured plugins
+" :plugininstall    - installs plugins; append `!` to update or just :pluginupdate
+" :pluginsearch foo - searches for foo; append `!` to refresh local cache
+" :pluginclean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for faq
+" put your non-plugin stuff after this line
+
+" set ale linters
 let g:ale_linters = {
 \   'python': ['flake8'],
 \}
 
-command! MakeTags !ctags -R .
-" Exclude Javascript files in :Rtags via rails.vim due to warnings when parsing
-let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
+" set ale fixers
+let g:ale_fixers = {
+\   'python': ['autopep8'],
+\}
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'tpope/vim-rails'
-Plugin 'elixir-editors/vim-elixir'
-Plugin 'fatih/vim-go'
-Plugin 'mattn/emmet-vim'
-Plugin 'rking/ag.vim'
-Plugin 'dyng/ctrlsf.vim'
-Plugin 'w0rp/ale'
-Plugin 'Vimjas/vim-python-pep8-indent'
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-
-" Leader
+" leader
 let mapleader = " "
+
+" make my python code look pretty
+let python_highlight_all=0
+
+" initial configuration for explore
+let g:netrw_winsize = 17
+let g:netrw_banner=0        " disable annoying banner
+" let g:netrw_browse_split=2  " open in vertical split
+let g:netrw_altv=1          " open splits to the right
+let g:netrw_liststyle=3     " tree view
+
 
 set path+=**
 set wildmenu
-set wildignore+=*pyc
-set encoding=utf-8 " Ensure to work with utf-8, better to my python/django projects
-set backspace=2   " Backspace deletes like most programs in insert mode
+set wildignore+=*pyc,.git/**,node_modules/**,python-virtualenv/**,.venv/**
+set encoding=utf-8 " ensure to work with utf-8, better to my python/django projects
+set backspace=2   " backspace deletes like most programs in insert mode
 set nobackup
 set nowritebackup
 set noswapfile    " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
@@ -58,93 +74,85 @@ set ruler         " show the cursor position all the time
 set hlsearch
 set showcmd       " display incomplete commands
 set incsearch     " do incremental searching
-set laststatus=2  " Always display the status line
-set autowrite     " Automatically :write before running commands
-set ignorecase    " Ignore case when searching...
+set laststatus=2  " always display the status line
+set autowrite     " automatically :write before running commands
+set ignorecase    " ignore case when searching...
 set smartcase     " ...unless we type a capital
-set showmode      "Show current mode down the bottom
-set visualbell    " No noise
-set nowrap        "Don't wrap lines
-set background=dark "Dark colors
-set tabstop=2 " Softtabs, 2 spaces
+set showmode      "show current mode down the bottom
+set visualbell    " no noise
+set nowrap        "don't wrap lines
+set background=dark "dark colors
+set tabstop=2 " softtabs, 2 spaces
 set shiftwidth=2
 set shiftround
 set expandtab
-set textwidth=80 " Make it obvious where 80 characters is
+set textwidth=80 " make it obvious where 80 characters is
 set colorcolumn=+1
 set number
 set numberwidth=5
 set relativenumber
 set foldmethod=syntax
 set foldlevel=99
-set list listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
-set splitbelow " Open new split panes to the bottom
-set splitright " Open new split panes to the right
+set list listchars=tab:»·,trail:·,nbsp:· " display extra whitespace
+set splitbelow " open new split panes to the bottom
+set splitright " open new split panes to the right
 set tags=tags
 
-" Make my python code look pretty
-let python_highlight_all=0
-
-" Make neovim recognize my ruby gems
-let g:ruby_host_prog = 'rvm system do neovim-ruby-host'
-
-filetype plugin indent on
-
 " automatically rebalance windows on vim resize
-autocmd VimResized * :wincmd =
+autocmd vimresized * :wincmd =
 
-" ================ Persistent Undo ==================
-" Keep undo history across sessions, by storing in file.
-" Only works all the time.
+" ================ persistent undo ==================
+" keep undo history across sessions, by storing in file.
+" only works all the time.
 if has('persistent_undo')
   silent !mkdir ~/.vim/backups > /dev/null 2>&1
   set undodir=~/.vim/backups
   set undofile
 endif
 
-" Local config
-if filereadable($HOME . "/.vimrc.local")
+" local config
+if filereadable($home . "/.vimrc.local")
   source ~/.vimrc.local
 endif
 
-" New tab
-map T :tabnew<CR>
+" new tab
+map t :tabnew<cr>
 
-" Switch splits easy
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+" switch splits easy
+nnoremap <c-j> <c-w><c-j>
+nnoremap <c-k> <c-w><c-k>
+nnoremap <c-l> <c-w><c-l>
+nnoremap <c-h> <c-w><c-h>
 
-" Mapping next and previous tab
-nnoremap <silent><space><space> :tabnext<CR>
+" mapping next and previous tab
+nnoremap <silent><space><space> :tabnext<cr>
 
-" Create splits easy
-nnoremap <silent>ss :split<CR>
-nnoremap <silent>vv :vsplit<CR>
+" create splits easy
+nnoremap <silent>ss :split<cr>
+nnoremap <silent>vv :vsplit<cr>
 
-" Create terminal in split
-nnoremap <silent>tss :term<CR>
-nnoremap <silent>tvv :vertical term<CR>
+" create terminal in split
+nnoremap <silent>tss :term<cr>
+nnoremap <silent>tvv :vertical term<cr>
 
-" Clean words that was searched
-nnoremap <silent>// :noh<CR>
+" clean words that was searched
+nnoremap <silent>// :noh<cr>
 
-" Go file in new vertical split
-nnoremap <silent>gvv :vsplit<CR>gf
+" go file in new vertical split
+nnoremap <silent>gvv :vsplit<cr>gf
 
-" Go file in new horizontal split
-nnoremap <silent>gss :split<CR>gf
+" go file in new horizontal split
+nnoremap <silent>gss :split<cr>gf
 
-" Go file in new tab
-nnoremap <silent>gtt :tabnew<CR><C-O>gf<CR>
+" go file in new tab
+nnoremap <silent>gtt :tabnew<cr><c-o>gf<cr>
 
-" Mapping copy and paste with X support
-noremap <Leader>y "+y
-noremap <Leader>p "+p
+" mapping copy and paste with x support
+noremap <leader>y "+y
+noremap <leader>p "+p
 
-" Python PEP 8 identation
-au BufNewFile,BufRead *.py
+" python pep 8 identation
+au bufnewfile,bufread *.py
     \ set tabstop=4 |
     \ set softtabstop=4 |
     \ set shiftwidth=4 |
@@ -153,8 +161,8 @@ au BufNewFile,BufRead *.py
     \ set autoindent |
     \ set fileformat=unix
 
-" Vue files with html syntax
-au BufNewFile,BufRead *.vue
+" vue files with html syntax
+au bufnewfile,bufread *.vue
     \ set tabstop=2 |
     \ set softtabstop=2 |
     \ set shiftwidth=2 |
@@ -162,45 +170,29 @@ au BufNewFile,BufRead *.vue
     \ set textwidth=0 |
     \ set autoindent |
 
-" Text to go
-au BufNewFile,BufRead *.go
+" text to go
+au bufnewfile,bufread *.go
     \ set textwidth=0
 
-" Text limiter to markdown
-au BufNewFile,BufRead *.md
+" text limiter to markdown
+au bufnewfile,bufread *.md
     \ set textwidth=168
 
-au BufNewFile,BufRead *.html
+au bufnewfile,bufread *.html
     \ set textwidth=0
 
-" Incovenient blank spaces
-highlight BadWhitespace ctermfg=16 ctermbg=253 guifg=#000000 guibg=#F8F8F0
-au BufRead,BufNewFile *.py,*.pyw,*.c,*.h,*.go,*.rb match BadWhitespace /\s\+$/
+" incovenient blank spaces
+highlight badwhitespace ctermfg=16 ctermbg=253 guifg=#000000 guibg=#f8f8f0
+au bufread,bufnewfile *.py,*.pyw,*.c,*.h,*.go,*.rb match badwhitespace /\s\+$/
 
-" Modify silver seacher to not open the first found
-ca Ag Ag!
-ca ag Ag!
+" modify silver seacher to not open the first found
+ca ag ag!
+ca ag ag!
 
-" Ag find the current word using K
-nnoremap <silent> K :Ag! <cword><CR>
+" ag find the current word using k
+nnoremap <silent> k :ag! <cword><cr>
 
 let g:ctrlsf_winsize = '30%' " ctrlsf position
 
-" Shortcutt to CtrlSF a word
-map <silent>F <Plug>CtrlSFPrompt<CR>
-
-" Initial configuration for Explore
-let g:netrw_winsize = 17
-let g:netrw_banner=0        " disable annoying banner
-" let g:netrw_browse_split=2  " open in vertical split
-let g:netrw_altv=1          " open splits to the right
-let g:netrw_liststyle=3     " tree view
-
-"Netwr was removind my ctrl L command
-augroup netrw_mapping
-  autocmd!
-  autocmd filetype netrw call NetrwMapping()
-augroup END
-function! NetrwMapping()
-  nnoremap <buffer> <c-l> :wincmd l<cr>
-endfunction
+" shortcutt to ctrlsf a word
+map <silent>f <plug>ctrlsfprompt<cr>
